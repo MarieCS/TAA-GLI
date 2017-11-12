@@ -1,8 +1,11 @@
 package sample.data.jpa.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import sample.data.jpa.domain.Sport;
@@ -13,9 +16,9 @@ import sample.data.jpa.service.SportDao;
 public class SportController {
 
 	/**
-	 * GET /create --> Create a new sport and save it in the database.
+	 * create --> Create a new sport and save it in the database.
 	 */
-	@RequestMapping("/create")
+	@RequestMapping(value = "/create", method = RequestMethod.PUT)
 	@ResponseBody
 	public String create(String name) {
 		String sportId = "";
@@ -30,27 +33,25 @@ public class SportController {
 		return "Sport succesfully created with id = " + sportId;
 	}
 
-	/**
-	 * GET /delete --> Delete the user having the passed id.
-	 */
-	@RequestMapping("/delete")
+	
+	@RequestMapping(value = "/delete" , method = RequestMethod.DELETE)
 	@ResponseBody
-	public String delete(long id) {
+	public String delete(Long id) {
 		try {
-			Sport sport = new Sport();
-			sport.setId(id);
-			sportDao.delete(sport);
+			Sport sport = sportDao.findOne(id);
+			if(sport == null) {
+				return "The sport dosen't exists";
+			}else {
+				sportDao.delete(sport);
+			}
+			
 		} catch (Exception ex) {
-			return "Error deleting the user:" + ex.toString();
+			return "Error deleting the sport:" + ex.toString();
 		}
-		return "User succesfully deleted!";
+		return "Sport succesfully deleted!";
 	}
 
-	/**
-	 * GET /update --> Update the email and the name for the user in the database
-	 * having the passed id.
-	 */
-	@RequestMapping("/update")
+	@RequestMapping(value = "/update" , method = RequestMethod.POST)
 	@ResponseBody
 	public String updateUser(long id, String email, String name) {
 		try {
@@ -61,6 +62,20 @@ public class SportController {
 			return "Error updating the user: " + ex.toString();
 		}
 		return "User succesfully updated!";
+	}
+	
+	
+	@RequestMapping("/get-all")
+	@ResponseBody
+	public List<Sport> getAll() {
+		List<Sport> sports = null;
+		try {
+			sports = sportDao.findAll();
+			
+		} catch (Exception ex) {
+			return null;
+		}
+		return sports;
 	}
 
 	// Private fields

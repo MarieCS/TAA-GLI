@@ -30,7 +30,7 @@ public class PreferencePratiqueController {
 	}
 
 	/**
-	 * GET /create --> Create a new sport and save it in the database.
+	 * GET 
 	 */
 	@RequestMapping("/get")
 	@ResponseBody

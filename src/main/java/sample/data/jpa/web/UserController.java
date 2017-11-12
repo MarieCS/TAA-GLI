@@ -6,12 +6,14 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import sample.data.jpa.domain.Lieu;
@@ -29,10 +31,11 @@ import sample.data.jpa.service.UserDao;
 public class UserController {
 
 	/**
-	 * GET /create --> Create a new user and save it in the database.
+	 * create --> Create a new user and save it in the database.
 	 */
-	@RequestMapping("/create")
+	@RequestMapping(value = "/create", method = RequestMethod.PUT)
 	@ResponseBody
+	
 	public String create(String email, String name) {
 		String userId = "";
 		try {
@@ -47,10 +50,7 @@ public class UserController {
 		return "User succesfully created with id = " + userId;
 	}
 
-	/**
-	 * GET /create --> Create a new user and save it in the database.
-	 */
-	@RequestMapping("/addPref")
+	@RequestMapping(value ="/addPref" , method = RequestMethod.POST)
 	@ResponseBody
 	public String addPreferencePratique(long userId, long sportId, long prefId) {
 		try {
@@ -66,9 +66,9 @@ public class UserController {
 	}
 
 	/**
-	 * GET /delete --> Delete the user having the passed id.
+	 * delete --> Delete the user having the passed id.
 	 */
-	@RequestMapping("/delete")
+	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
 	@ResponseBody
 	public String delete(long id) {
 		try {
@@ -78,6 +78,19 @@ public class UserController {
 			return "Error deleting the user:" + ex.toString();
 		}
 		return "User succesfully deleted!";
+	}
+	
+
+	@RequestMapping("/get-all")
+	@ResponseBody
+	public List<User> getAllUsers() {
+		List<User> users = null;
+		try {
+			users = userDao.findAll();
+		} catch (Exception ex) {
+			return null;
+		}
+		return users;
 	}
 
 	/**
@@ -97,10 +110,10 @@ public class UserController {
 	}
 
 	/**
-	 * GET /update --> Update the email and the name for the user in the database
+	 * update --> Update the email and the name for the user in the database
 	 * having the passed id.
 	 */
-	@RequestMapping("/update") // , method = RequestMethod.POST)
+	@RequestMapping(value ="/update" , method = RequestMethod.POST)
 	@ResponseBody
 	public String updateUser(long id, String email, String name) {
 		try {

@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+<title>Weekend sportif</title>
+<link href="css/angular-bootstrap.css" rel="stylesheet">
+<style type="text/css">
+[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none !important;
+}
+</style>
+</head>
+
+<body ng-app="hello">
+  <div class="container">
+    <h1>Welcome</h1>
+    <div ng-controller="home" ng-cloak class="ng-cloak">
+      <p>The ID is {{greeting.id}}</p>
+      <p>The content is {{greeting.content}}</p>
+      <p>List of all users 
+        
+        <ul  ng-repeat="u in users">
+          <li>{{u.name}}</li>
+        </ul> </p>
+      <p>List of all sports 
+          <ul  ng-repeat="sport in sports">
+              <li>{{sport.name}}</li>
+          </ul>
+        </p>
+      <button ng-click="addToto()">Add toto user</button>
+      <button ng-click="addSportVelo()">Add velo sport</button>
+    </div>
+  </div>
+  <!-- <script src="js/angular-bootstrap.js" type="text/javascript"></script> -->
+  <script src="js/jquery.min.js"></script>
+   <!-- <script src="js/bootstrap.min.js"></script> -->
+    <script src="js/angular.min.js"></script>
+    <script src="js/angular-resource.min.js"></script>
+  <script src="js/hello.js"></script>
+</body>
+</html>
