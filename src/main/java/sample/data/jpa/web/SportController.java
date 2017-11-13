@@ -21,6 +21,9 @@ public class SportController {
 	@RequestMapping(value = "/create", method = RequestMethod.PUT)
 	@ResponseBody
 	public String create(String name) {
+		if(name == null || name.isEmpty()) {
+			return "The name is empty'"+name+"'\n";
+		}
 		String sportId = "";
 		try {
 			Sport sport = new Sport();	
@@ -30,10 +33,9 @@ public class SportController {
 		} catch (Exception ex) {
 			return "Error creating the user: " + ex.toString();
 		}
-		return "Sport succesfully created with id = " + sportId;
+		return "Sport succesfully created with id = " + sportId+"\n";
 	}
 
-	
 	@RequestMapping(value = "/delete" , method = RequestMethod.DELETE)
 	@ResponseBody
 	public String delete(Long id) {
